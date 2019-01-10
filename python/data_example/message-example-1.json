@@ -1,0 +1,119 @@
+{
+    "participants": [
+      {
+        "name": "Nick Carraway"
+      },
+      {
+        "name": "Jay Gatsby"
+      }
+    ],
+    "messages": [
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102000,
+        "content": "Your place looks like the World's Fair.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102001,
+        "content": "Does it? I have been glancing into some of the rooms. Let's go to Coney Island, old sport. In my car.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102002,
+        "content": "It's too late.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102003,
+        "content": "Well, suppose we take a plunge in the swimming-pool? I haven't made use of it all summer.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102004,
+        "content": "I've got to go to bed.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102005,
+        "content": "All right.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102006,
+        "content": "I talked with Miss Baker. I'm going to call Daisy to-morrow and invite her over here to tea.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102007,
+        "content": "Oh that's all right. I don't want to put you to any trouble.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102008,
+        "content": "What day would suit you?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102009,
+        "content": "What day would suit you? I don't want to put you to any trouble, you see.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102010,
+        "content": "How about the day after to-morrow?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102011,
+        "content": "I want to get the grass cut.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102012,
+        "content": "Jay sent a photo.",
+        "photos": [
+          {
+            "uri": "messages/TGG_Chapter5/photos/9263492634_92341041401_9283623_n_02856718056203525.jpg"
+          }
+        ],
+        "reactions": [
+          {
+            "reaction": "\u00f0\u009f\u0098\u0086",
+            "actor": "Nick Carraway"
+          }
+        ],
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102023,
+        "content": "There's another little thing.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102024,
+        "content": "Would you rather put it off for a few days?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102025,
+        "content": "Oh, it isn't about that. At least--",
+        "type": "Generic"
+      }
+    ]
+}

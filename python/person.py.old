@@ -1,0 +1,74 @@
+from random import random
+from math import floor
+
+class person:
+    """
+    Represents a person that says things according to a predetermined set of
+    'things to say.' In this case, these 'things to say' come from a 
+    Facebook Messenger download.
+    """
+
+    # Static variables
+    prefix_ante = '<div class="_3-96 _2pio _2lek _2lel">'
+    prefix_post = '</div><div class="_3-96 _2let"><div><div></div><div>'
+    suffix = '</div>'
+
+    def __init__(self, name, filename='message.html'):
+        # Assert(s)
+        assert type(name) == str, "'name' must be a string."
+        assert type(filename) == str, "'filename' must be a string"
+
+        # Storing some information
+        self.name = name
+
+        # Loading the information from the file
+        file_file = open(filename, "r", encoding = 'utf8')
+        file_string = file_file.readline()
+        
+        # Cleaning the file to get the phrases "spoken"
+        prefix = person.prefix_ante + name + person.prefix_post
+        data_list = file_string.split(prefix)
+        for i in range(len(data_list)):
+            phrase = data_list[i]
+            phrase = phrase[:phrase.index(person.suffix)]
+            data_list[i] = phrase
+        
+        # Clean up the phrases a little
+        data_list = [x for x in data_list if x != '']
+        data_list = [x for x in data_list if not '<html>' in x]
+
+        # Finalize the phrases
+        self.phrases = tuple(data_list)
+    
+
+    def speak(self, times=1):
+        """ Returns a list of phrases taken randomly from a person."""
+        assert type(times) == int, "'times' must be an int"
+
+        result = []
+        for _ in range(times):
+            length = len(self.phrases)
+            index = floor(random() * length)
+            result.append(self.phrases[index])
+        return result
+
+
+def conversation(p1, p2, length):
+    """ Prints out a conversation involving two people. The conversation
+    alternates between the two people, with p1 speaking first.
+    """
+    # Asserts
+    assert isinstance(p1, person), "'p1' must be a person"
+    assert isinstance(p2, person), "'p2' must be a person"
+    assert type(length) == int, "'length' must be an int"
+
+    # Figure out the correct starting "indentation"
+    indent = max(len(p1.name), len(p2.name)) + 3
+    prefix_p1 = p1.name + ':' + ' '*(indent - (len(p1.name) + 1))
+    prefix_p2 = p2.name + ':' + ' '*(indent - (len(p2.name) + 1))
+
+    # Start speaking
+    for _ in range(length):
+        print(prefix_p1, p1.speak()[0])
+        print(prefix_p2, p2.speak()[0])
+

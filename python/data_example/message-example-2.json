@@ -1,0 +1,145 @@
+{
+    "participants": [
+      {
+        "name": "Nick Carraway"
+      },
+      {
+        "name": "Jay Gatsby"
+      },
+      {
+        "name": "Daisy Fay Buchanan"
+      }
+    ],
+    "messages": [
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102000,
+        "content": "Well that's funny.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Daisy Fay Buchanan",
+        "timestamp_ms": 192504102001,
+        "content": "What's funny?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Daisy Fay Buchanan",
+        "timestamp_ms": 192504102003,
+        "content": "I certainly am awfully glad to see you again.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102002,
+        "content": "We've met before.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102003,
+        "content": "I'm sorry about the clock.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102004,
+        "content": "It's an old clock.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Daisy Fay Buchanan",
+        "timestamp_ms": 192504102005,
+        "content": "We haven't met for many years.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102006,
+        "content": "Five years next November.",
+        "reactions": [
+          {
+            "reaction": "\u00f0\u009f\u0091\u008d",
+            "actor": "Nick Carraway"
+          },
+          {
+            "reaction": "\u00f0\u009f\u0091\u008d",
+            "actor": "Daisy Fay Buchanan"
+          }
+        ],
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102007,
+        "content": "Where are you going?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102008,
+        "content": "I'll be back.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102009,
+        "content": "I’ve got to speak to you about something before you go.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102009,
+        "content": "Oh, God!",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102010,
+        "content": "What's the matter?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102011,
+        "content": "This is a terrible mistake. A terrible, terrible, mistake.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102010,
+        "content": "You're just embarassed, that's all. Daisy's embarassed too.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102009,
+        "content": "She's embarassed?",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102010,
+        "content": "Just as much as you are.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Jay Gatsby",
+        "timestamp_ms": 192504102009,
+        "content": "Don't talk so loud.",
+        "type": "Generic"
+      },
+      {
+        "sender_name": "Nick Carraway",
+        "timestamp_ms": 192504102010,
+        "content": "You're acting like a little boy. Not only that, but you're rude. Daisy's sitting in there all alone.",
+        "reactions": [
+          {
+            "reaction": "\u00f0\u009f\u0098\u0086",
+            "actor": "Jay Gatsby"
+          }
+        ],
+        "type": "Generic"
+      }
+    ]
+}
