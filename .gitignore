@@ -103,6 +103,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# VS Code files
+.vscode/
+
 # Misc
 OTHER/
-python/data/
+data/
+python/scratchpad.py
