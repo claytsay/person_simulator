@@ -1,14 +1,14 @@
 {
-  "main.css": "/person_simulator/static/css/main.688c7b25.chunk.css",
-  "main.js": "/person_simulator/static/js/main.dbafed73.chunk.js",
-  "main.js.map": "/person_simulator/static/js/main.dbafed73.chunk.js.map",
+  "main.css": "/person_simulator/static/css/main.52e3b037.chunk.css",
+  "main.js": "/person_simulator/static/js/main.e5d52f6c.chunk.js",
+  "main.js.map": "/person_simulator/static/js/main.e5d52f6c.chunk.js.map",
   "static/js/1.f739feb7.chunk.js": "/person_simulator/static/js/1.f739feb7.chunk.js",
   "static/js/1.f739feb7.chunk.js.map": "/person_simulator/static/js/1.f739feb7.chunk.js.map",
   "runtime~main.js": "/person_simulator/static/js/runtime~main.b8bb5b8a.js",
   "runtime~main.js.map": "/person_simulator/static/js/runtime~main.b8bb5b8a.js.map",
   "static/media/logo.svg": "/person_simulator/static/media/logo.5d5d9eef.svg",
-  "static/css/main.688c7b25.chunk.css.map": "/person_simulator/static/css/main.688c7b25.chunk.css.map",
+  "static/css/main.52e3b037.chunk.css.map": "/person_simulator/static/css/main.52e3b037.chunk.css.map",
   "index.html": "/person_simulator/index.html",
-  "precache-manifest.3428a19f50c7dc74a8ca7f71a0376550.js": "/person_simulator/precache-manifest.3428a19f50c7dc74a8ca7f71a0376550.js",
+  "precache-manifest.e05b6a4e5e5f8b78bc5ba92301296fd7.js": "/person_simulator/precache-manifest.e05b6a4e5e5f8b78bc5ba92301296fd7.js",
   "service-worker.js": "/person_simulator/service-worker.js"
 }
