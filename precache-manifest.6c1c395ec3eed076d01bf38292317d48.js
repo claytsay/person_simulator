@@ -8,19 +8,19 @@ self.__precacheManifest = [
     "url": "/person_simulator/static/js/runtime~main.b8bb5b8a.js"
   },
   {
-    "revision": "d1512e7941e3cc15d150",
-    "url": "/person_simulator/static/js/main.d1512e79.chunk.js"
+    "revision": "5e8f1e165fab0bee4b01",
+    "url": "/person_simulator/static/js/main.5e8f1e16.chunk.js"
   },
   {
     "revision": "f739feb7d61c48a46bed",
     "url": "/person_simulator/static/js/1.f739feb7.chunk.js"
   },
   {
-    "revision": "d1512e7941e3cc15d150",
+    "revision": "5e8f1e165fab0bee4b01",
     "url": "/person_simulator/static/css/main.70e51d9b.chunk.css"
   },
   {
-    "revision": "adba5cfa85464e3510965dc33de2790a",
+    "revision": "b2000b0da6bedf09144c321942d99ce1",
     "url": "/person_simulator/index.html"
   }
 ];
