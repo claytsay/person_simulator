@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/person_simulator/precache-manifest.582e8cb0456106f075d38199a27c1aaa.js"
+  "/person_simulator/precache-manifest.881e61b932d15247f8d31c154561488a.js"
 );
 
 workbox.clientsClaim();
