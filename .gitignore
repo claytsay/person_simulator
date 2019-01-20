@@ -103,7 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# VS Code files
+# IDE Files
+.idea/
 .vscode/
 
 # Misc

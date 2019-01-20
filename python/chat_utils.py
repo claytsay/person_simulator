@@ -6,7 +6,7 @@ from text_utils import *
 
 class Chat:
     """Represents a chat with certain people.
-    
+
     Data is stored as a list of TextChains.
 
     Attributes:
@@ -17,7 +17,6 @@ class Chat:
         chains: A list that has all of the chat`s TextChains.
         illegal_tokens: A class frozenset that has short phrases that
             indicate that a text is not really "spoken" by a person.
-        
     """
 
     # Static/class attributes
@@ -69,7 +68,8 @@ class Chat:
                 name_prev = name_curr
             if name_curr != name_prev:
                 if contents:
-                    blocks.append(TextBlock(name_prev, list(reversed(contents))))
+                    blocks.append(
+                        TextBlock(name_prev, list(reversed(contents))))
                     contents.clear()
                 name_prev = name_curr
             if not Chat.is_invalid(content):
@@ -78,7 +78,7 @@ class Chat:
         self.chains = []
         self.chains.append(TextChain(blocks))
 
-        # Put all of the names 
+        # Put all of the names
         participants = list(
             map(lambda x: x["name"], data_json["participants"])
         )
@@ -93,7 +93,8 @@ class Chat:
             name: The name whose associated TextBlocks is to be gotten.
 
         Returns:
-            A list[TextBlock] of blocks with name attribute name.
+            A list of TextBlocks. Each TextBlock should have a name
+            attribute that is the same as the provided one.
         """
 
         result = []
@@ -107,7 +108,11 @@ class Chat:
 
         Args:
             phrase: The phrase whose validity is to be tested.
-        
+
+        Returns:
+            A boolean representing whether the phrase is valid or not
+            (..e. False means an invalid phrase).
+
         >>> Chat.is_invalid("Hello!")
         False
         >>> Chat.is_invalid("Keren sent a photo.")
@@ -118,8 +123,7 @@ class Chat:
             if token in phrase:
                 return True
         return False
-    
-        
+
 
 class Person:
     """Represents a person and all of their texts.
@@ -131,14 +135,14 @@ class Person:
         chains: A list of TextChains from which the person sources
             its TextBlocks.
         blocks: A list of all the TextBlocks from the provided chats
-            that the person spoke (based on name). 
+            that the person spoke (based on name).
     """
 
     def __init__(self, name, chats):
         """Initializes a Person.
-        
+
         Args:
-            name: The name of the person.
+            name: A string representing the name of the person.
             chats: A list of Chat instances from which the person takes
                 its data (i.e. texts).
         """
@@ -159,20 +163,23 @@ class Person:
             self.blocks.extend(chain.get_blocks(self.name))
 
     def get_text_random(self):
-        """Returns the contents (a list of strings) of a TextBlock
-        taken randomly from self.
+        """Gets a text block taken randomly from the Person.
+
+        Returns:
+            A list of strings that are the contents of a TextBlock
+            that the Person contains.
         """
 
         return choice(self.blocks).content
 
     def get_text_ratio(self, context=None):
-        """Returns a list of responses taken from a Person that utilises
-        the Phrase method context_match to find the best responses.
-        
+        """Gets a text block whose context most closely matches the 
+        provided one.
+
         Args:
             context: The context that is to be compared to the context
                 of the current Person instance.
-        
+
         Returns:
             A list of strings taken from the best-chosen TextBlock as
             determined by context similarity. If no best TextBlock is
@@ -181,8 +188,10 @@ class Person:
 
         if not context:
             return self.get_text_random()
-        block_ratios = {block : block.context_match(context) for block in self.blocks}
-        block_ratios = [x[0] for x in sorted(block_ratios.items(), key=lambda x: x[1])]
+        block_ratios = {block: block.context_match(
+            context) for block in self.blocks}
+        block_ratios = [x[0]
+                        for x in sorted(block_ratios.items(), key=lambda x: x[1])]
         # TODO: Perhaps optimize this random-ness
         if len(block_ratios) == 0:
             return self.get_text_random()
@@ -196,7 +205,7 @@ class Person:
         """Takes a potentially fuzzy name and attempts to find the
         "correct" name that it is supposed to represent. Takes data
         from Chat.all_participants.
-        
+
         Args:
             name: The name that is to be processed.
 
@@ -218,4 +227,3 @@ class Person:
             raise ValueError("invalid name: {0}".format(name))
         # finally:
         #     pass
-

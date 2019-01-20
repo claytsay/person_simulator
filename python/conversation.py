@@ -1,46 +1,99 @@
 import datetime
-from sys import stdin
+from sys import argv, stdin
 from chat_utils import *
 
-def conversation():
-    # TODO: Get this to work.
-    input_json = json.loads(stdin.readlines()[0])
+
+filenames_filename = "../data_example/filenames-examples.txt"
+# filenames_filename = "../data/filenames.txt"
+
+def get_names():
+    """Gets all the names in all the chats.
+
+    NodeJS-compatible. Receives arguments via stdin and outputs via
+    stdout. Outputs a stringified JSON array with all the names of all
+    the people in the chats specified under filenames_filename.
+    """
+
+    # TODO: Reformat lines to corform to PEP-8
+    names = set()
+    with open(filenames_filename, "r", encoding="utf-8") as filenames_file:
+        filenames = list(map(lambda x: x.strip(
+            "\n"), filenames_file.readlines()))
+    for filename in filenames:
+        with open(filename, "r",  encoding="utf-8") as data_file:
+            data_json = json.loads("".join(data_file.readlines()))
+            names.update(map(lambda x: x["name"], data_json["participants"]))
+    print(json.dumps(list(names)))
+        
+
+def load_person(name):
+    """"Creates a Person.
     
+    Constructs an instance of Person based on filenames_filename and
+    a given name. Able to take fuzzy input.
+
+    Args:
+        name: A string representing the name of the Person.
+    """
+
+    with open(filenames_filename, "r", encoding="utf-8") as filenames_file:
+        filenames = list(map(lambda x: x.strip(
+            "\n"), filenames_file.readlines()))
+    chats = [Chat(filename) for filename in filenames]
+    person = Person(name, chats)
+    if not person.blocks:
+        raise ValueError("person has no phrases: {0}".format(name))
+    return person
+
+
+def get_phrase():
+    """A NodeJS-compatible version of conversation_gui.
+
+    Does not have a GUI. Receives arguments via stdin and returns via
+    stdout. Takes in a JSON object in string format with attributes:
+        name: A string representing the name of the person to get
+            texts from.
+        context: A string representing the context of the text (i.e.
+            the user input).
+    """
+    # TODO: Optimise this code.
+    input_json = json.loads(stdin.readlines()[0])
+    person = load_person(input_json["name"])
+    context = TextBlock(None, input_json["context"])
+    result = person.get_text_ratio(context)
+    print(json.dumps({
+        "name": person.name,
+        "result": result
+    }))
 
 
 def conversation_gui():
     """Allows a user to talk to a Person via command line interface.
-    
+
     Asks the user to choose to talk to someone and continuously
     provides phrases from that person to continue the conversation.
     """
 
     # - - - - - - - - - - - -
-    # VARIALE DECLARATIONS
+    # VARIALE DECLARATION/INITIALIZATION
     # - - - - - - - - - - - -
-    version = "0.1.3"
-    # TODO: Add timezone information
-    data_date = datetime.datetime(2018, 10, 11, 22, 20)
-    filenames_filename = "../data_example/filenames-examples.txt"
-    # filenames_filename = "../data/filenames.txt"
-
-    # Console strings
     divider = "- - - - - - - - - - - - - - - - - - - -"
     header = "<<< CONVERSATION {0} >>>"
     exit_token = "exit()"
+    # TODO: Add timezone information
+    data_date = datetime.datetime(2018, 10, 11, 22, 20)
 
+    with open("../VERSION.md", "r", encoding="utf-8") as version_file:
+        version = version_file.readline()[:-1]
 
     # - - - - - - - - - - - -
     # MECHANICS
     # - - - - - - - - - - - -
 
-    # Get phrases from the file
-    with open(filenames_filename, "r", encoding="utf-8") as filenames_file:
-        filenames = list(map(lambda x: x.strip("\n"), filenames_file.readlines()))
-
     # Print out a header "banner"
     print(
-        "Python Person Simulator (JSON Edition)",
+        "person_simulator",
+        "(JSON Edition, Python backend)",
         "Version: " + version,
         "Data last updated: " + data_date.__str__(),
         divider,
@@ -52,10 +105,7 @@ def conversation_gui():
     person_name = input("Who would you like to talk to? ")
 
     # Instantiate the Person
-    chats = [Chat(filename) for filename in filenames]
-    person = Person(person_name, chats)
-    if not person.blocks:
-        raise ValueError("person has no phrases: {0}".format(person_name))
+    person = load_person(person_name)
 
     # Determine which level to indent the chat
     indent = max(len(user_name), len(person.name)) + 3
@@ -85,4 +135,9 @@ def conversation_gui():
 
 
 if __name__ == "__main__":
-    conversation_gui()
+    if argv[1] == "names":
+        get_names()
+    elif argv[1] == "phrase":
+        get_phrase()
+    else:
+        raise ValueError("Invalid command line argument.")

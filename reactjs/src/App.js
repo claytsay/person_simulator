@@ -1,28 +1,36 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import * as AuthComp from './AuthComps.js';
+import * as ChatComps from './ChatComps.js';
+import * as Utils from './Utils.js';
 import './App.css';
 
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.props.names = [];
+    this.props.url = "http://127.1.0.0";
+    Utils.makeRequest(this.props.url, "GET", "", (resultText) => {
+      this.props.names.push(...JSON.parse(resultText));
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h1>person_simulator</h1>
+          <p>An app designed to simulate people.</p>
         </header>
+        <ChatComps.ChatBox
+          names={this.props.names}
+          url={this.props.url}
+        />
       </div>
     );
   }
+
 }
 
 export default App;

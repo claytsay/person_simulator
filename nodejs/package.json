@@ -1,0 +1,15 @@
+{
+  "name": "person_simulator",
+  "version": "0.2.0",
+  "description": "A server backend to person_simulator.",
+  "main": "start.js",
+  "scripts": {
+    "test": "console.log(\"Hello World!\");"
+  },
+  "repository": {
+    "type": "git",
+    "url": "person_simulator"
+  },
+  "author": "Clay Tsay",
+  "license": "UNLICENSED"
+}
