@@ -4,7 +4,7 @@
   "description": "A server backend to person_simulator.",
   "main": "start.js",
   "scripts": {
-    "test": "console.log(\"Hello World!\");"
+    "start": "node start.js"
   },
   "repository": {
     "type": "git",

@@ -7,12 +7,15 @@ import './App.css';
 
 
 class App extends Component {
+  state = {
+    names: [],
+    url: "http://ct3m.asuscomm.com/person_simulator/api"
+  };
+
   constructor(props) {
     super(props);
-    this.props.names = [];
-    this.props.url = "http://127.1.0.0";
-    Utils.makeRequest(this.props.url, "GET", "", (resultText) => {
-      this.props.names.push(...JSON.parse(resultText));
+    Utils.makeRequest(this.state.url, "GET", "", (resultText) => {
+      this.state.names.push(...JSON.parse(resultText));
     });
   }
 
@@ -24,8 +27,8 @@ class App extends Component {
           <p>An app designed to simulate people.</p>
         </header>
         <ChatComps.ChatBox
-          names={this.props.names}
-          url={this.props.url}
+          names={this.state.names}
+          url={this.state.url}
         />
       </div>
     );

@@ -24,10 +24,13 @@ project. Tasks are roughly organized based on subproject and category.
 
 
 ## [`nodejs`](nodejs/)
+### Documentation
 - [ ] Write proper JSDocs
 
 
 ## [`reactjs`](reactjs/)
-- [ ] Create a good UI
+### Documentation
 - [ ] Write proper JSDocs
 
+### Mechanics
+- [ ] Create a good UI

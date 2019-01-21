@@ -43,7 +43,7 @@ function handlePostRequest(request, response) {
   }).on('end', () => {
     body = JSON.parse(Buffer.concat(body).toString());
     response.writeHead(200, {
-      "Access-Control-Allow-Origin": "https://claytsay.github.io",
+      "Access-Control-Allow-Origin": "http://ct3m.asuscomm.com/person_simulator",
       "Content-Type": "application/json"
     });
     let data = {
@@ -125,4 +125,4 @@ function pythonProcess(command, data, callback) {
 module.exports = {
   handleGetRequest: handleGetRequest,
   handlePostRequest: handlePostRequest
-}
+};
