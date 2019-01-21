@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import makeRequest from "./Utils.js";
+import * as Utils from "./Utils";
 
 
 // = = = = = = = = = = = = =
@@ -38,8 +39,17 @@ const TextCard = (props) => {
 class ChatForm extends Component {
   state = {
     name: "",
+    names: [],
     text: ""
   };
+
+  constructor(props) {
+    super(props);
+    Utils.makeRequest(this.props.url, "GET", "", (resultText) => {
+      this.state.names.push(...JSON.parse(resultText));
+      this.setState(this.state);
+    });
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -156,6 +166,7 @@ export class ChatBox extends Component {
         <ChatForm
           names={this.state.names}
           onSubmit={this.onFormSubmit}
+          url={this.props.url}
         />
       </div>
     );
