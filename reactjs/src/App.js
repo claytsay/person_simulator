@@ -15,10 +15,7 @@ class App extends Component {
           <h1>person_simulator</h1>
           <p>An app designed to simulate people.</p>
         </header>
-        <ChatComps.ChatBox
-          names={this.state.names}
-          url={url}
-        />
+        <ChatComps.ChatBox url={url}/>
       </div>
     );
   }

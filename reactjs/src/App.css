@@ -42,7 +42,7 @@
   display: block;
 }
 
-.text-card > * > * > * > .text {
+.text-card .text {
   border-radius: 1.0em;
   overflow-wrap: normal;
   padding: 0.5em;
@@ -60,13 +60,13 @@
   color: #f1f0f0;
 }
 
-.client > .content > * > * > .text {
+.client > .content .text {
   color: #ffffff;
   float: right;
   background: #0084ff;
 }
 
-.server > .content > * > * > .text {
+.server > .content .text {
   color: #000000;
   float: left;
   background: #f1f0f0;

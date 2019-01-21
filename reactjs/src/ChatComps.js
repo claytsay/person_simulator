@@ -77,7 +77,7 @@ class ChatForm extends Component {
             onChange={this.handleNameChange}
             required
           >
-            {this.props.names.map((name) =>
+            {this.state.names.map((name) =>
               <option value={name}>
                 {name}
               </option>
@@ -125,11 +125,7 @@ export class ChatBox extends Component {
     this.setState({
       name: state.name,
       text: state.text
-    })
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
+    });
 
     this.state.cards.push({
       name: "User",
@@ -152,6 +148,10 @@ export class ChatBox extends Component {
       this.setState(this.state);
     });
   };
+
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
+  // };
 
   render() {
     return (
