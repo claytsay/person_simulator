@@ -1,8 +1,8 @@
 {
   "name": "reactjs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
-  "homepage": "https://claytsay.github.io/person_simulator/",
+  "homepage": "http://ct3m.asuscomm.com/person_simulator/",
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

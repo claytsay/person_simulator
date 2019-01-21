@@ -5,17 +5,9 @@ import * as ChatComps from './ChatComps.js';
 import * as Utils from './Utils.js';
 import './App.css';
 
+const url = "http://ct3m.asuscomm.com/person_simulator/api";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.props.names = [];
-    this.props.url = "http://127.1.0.0";
-    Utils.makeRequest(this.props.url, "GET", "", (resultText) => {
-      this.props.names.push(...JSON.parse(resultText));
-    });
-  }
-
   render() {
     return (
       <div className="App">
@@ -23,14 +15,10 @@ class App extends Component {
           <h1>person_simulator</h1>
           <p>An app designed to simulate people.</p>
         </header>
-        <ChatComps.ChatBox
-          names={this.props.names}
-          url={this.props.url}
-        />
+        <ChatComps.ChatBox url={url}/>
       </div>
     );
   }
-
 }
 
 export default App;
