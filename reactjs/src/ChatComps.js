@@ -125,8 +125,8 @@ export class ChatBox extends Component {
   onFormSubmit = (data) => {
     this.state.cards.push({
       name: "User",
-      type: "Client",
-      content: [this.state.text]
+      type: "client",
+      content: [data.text]
     });
     this.setState({text: ""});
 
@@ -134,7 +134,7 @@ export class ChatBox extends Component {
       let response = JSON.parse(responseText);
       this.state.cards.push({
         name: response.name,
-        type: "Server",
+        type: "server",
         content: response.result
       });
       this.setState(this.state);
