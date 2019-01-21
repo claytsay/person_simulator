@@ -2,8 +2,17 @@
 
 ## Version 0.2.1
 - Migrated the React frontend from GitHub Pages to Node.js
+  - Changed URLs around in [handler.js](nodejs/handler.js)
 - Changed the Node.js backend to use Express
-- Fixed `README.md`
+- Made formatting changes to the UI
+  - UI based on that of
+  [Facebook Messenger](https://en.wikipedia.org/wiki/Facebook_Messenger)
+  - Added some sample cards/data in order to test formatting changes (see 
+  [`ChatComps.js`](reactjs/src/ChatComps.js))
+- Disaggregated React components in [`ChatComps.js`](reactjs/src/ChatComps.js)
+- Resolved miscellaneous formatting issues:
+  - Fixed `README.md`
+  - Added semicolons to various `.js` files
 
 ## Version 0.2.0
 At this stage, the program doesn't really work as the React frontend on GitHub

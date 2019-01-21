@@ -1,89 +1,68 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import makeRequest from "./Utils.js";
-
-// = = = = = = = = = = = = =
-// Constants
-// = = = = = = = = = = = = =
-
-// java.lang.NullPointerException;
 
 
 // = = = = = = = = = = = = =
 // React Components
 // = = = = = = = = = = = = =
 
-export const TextCard = (props) => {
+/**
+ * Renders a text message and who sent it (if necessary).
+ *
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
+const TextCard = (props) => {
   return (
-    <div className={"TextCard " + props.type}>
-      <div className="Name">
-        <b>{props.name}</b>
-      </div>
-      <div className="Content">
-        {props.content.map((text) => {
-          return (<p className="Text">{text}</p>)
-        })}
+    <div
+      className={"text-card " + (props.type === "server" ? "server" : "client")}
+    >
+      {props.type === "server" && <div className="name">{props.name}</div>}
+      <div className="content">
+        <table style={{width: 100 + "%"}}>
+          {props.content.map((text) => {
+            return (<tr>
+              <div className="text">{text}</div>
+            </tr>)
+          })}
+        </table>
       </div>
     </div>
   );
-}
+};
 
-export class ChatBox extends Component {
+/**
+ * TODO: Write this.
+ */
+class ChatForm extends Component {
   state = {
-    cards: [],
-    names: [],
     name: "",
     text: ""
-  }
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
-
-    this.state.cards.push({
-      name: "User",
-      type: "Client",
-      content: [this.state.text]
-    });
-    //document.getElementById("ChatForm").reset(); // TODO: This doesn't work.
-    this.setState({
-      text: ""
-    });
-    let data = {
-      "name": this.state.name,
-      "text": this.state.text
-    };
-
-    makeRequest(this.props.url, "POST", data, (responseText) => {
-      let response = JSON.parse(responseText);
-      this.state.cards.push({
-        name: response.name,
-        type: "Server",
-        content: response.result
-      });
-      this.setState(this.state);
-    });
-  }
+    this.props.onSubmit(this.state);
+  };
 
   handleNameChange = (event) => {
     this.setState({
       name: event.target.value
     });
-  }
+  };
 
   handleTextChange = (event) => {
     this.setState({
       text: event.target.value
     });
-  }
+  };
 
   render() {
     return (
-      <div className="ChatBox">
-        <div className="TextCardList">
-          {this.state.cards.slice(-6).map((card) => <TextCard {...card} />)}
-        </div>
-        <form id="ChatForm" onSubmit={this.handleSubmit}>
+      <div className="chat-form">
+        <form onSubmit={this.handleSubmit}>
           <select
-            type="text"
             value={this.state.name}
             onChange={this.handleNameChange}
             required
@@ -107,5 +86,78 @@ export class ChatBox extends Component {
   }
 }
 
+/**
+ * TODO: Write this.
+ */
+export class ChatBox extends Component {
+  state = {
+    cards: [{
+      name: "You",
+      type: "client",
+      content: [
+        "I really like nitrogen.",
+        "It's a cool element."
+      ]
+    },
+      {
+        name: "Someone Else",
+        type: "server",
+        content: [
+          "Nitrogen is a really trash element."
+        ]
+      }],
+    names: [],
+    name: "",
+    text: ""
+  };
 
+  onFormSubmit = (state) => {
+    this.setState({
+      name: state.name,
+      text: state.text
+    })
+  };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    this.state.cards.push({
+      name: "User",
+      type: "Client",
+      content: [this.state.text]
+    });
+    this.setState({text: ""});
+
+    let data = {
+      "name": this.state.name,
+      "text": this.state.text
+    };
+    makeRequest(this.props.url, "POST", data, (responseText) => {
+      let response = JSON.parse(responseText);
+      this.state.cards.push({
+        name: response.name,
+        type: "Server",
+        content: response.result
+      });
+      this.setState(this.state);
+    });
+  };
+
+  render() {
+    return (
+      <div className="chat-box">
+        <table style={{width: 100 + "%"}}>
+          {this.state.cards.slice(-6).map((card) =>
+            <tr>
+              <TextCard {...card} />
+            </tr>
+          )}
+        </table>
+        <ChatForm
+          names={this.state.names}
+          onSubmit={this.onFormSubmit}
+        />
+      </div>
+    );
+  }
+}

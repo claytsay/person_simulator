@@ -31,25 +31,47 @@
   }
 }
 
-.Client {
-  text-align: right;
-  color: #0084ff;
-}
+/* User-defined Tags */
 
-.Server {
-  text-align: left;
-  color: #f1f0f0;
-}
-
-.ChatBox {
+.chat-box {
   margin: auto;
   width: 50%;
 }
 
-.ChatForm {
-  width: 100%;
+.text-card > * {
+  display: block;
 }
 
-.Text {
+.text-card > * > * > * > .text {
+  border-radius: 1.0em;
+  overflow-wrap: normal;
+  padding: 0.5em;
+}
+
+.client {
+  text-align: right;
+}
+
+.server {
+  text-align: left;
+}
+
+.server > .name {
+  color: #f1f0f0;
+}
+
+.client > .content > * > * > .text {
+  color: #ffffff;
+  float: right;
+  background: #0084ff;
+}
+
+.server > .content > * > * > .text {
+  color: #000000;
+  float: left;
+  background: #f1f0f0;
+}
+
+.text {
   margin: auto;
 }

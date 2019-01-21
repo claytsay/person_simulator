@@ -4,7 +4,7 @@
 messaging logs (namely Facebook Messenger) to determine how to respond.
 
 ## Technical Details
-Current version is **0.2.0**.
+Current version is **0.2.1**.
 
 At this stage in the documentation, [`CHANGELOG.md`](CHANGELOG.md) has a lot of
 information regarding the mechanics of how the program works.

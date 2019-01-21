@@ -13,7 +13,7 @@ function handleGetRequest(request, response) {
   console.log("= = = GET: Start = = =");
 
   response.writeHead(200, {
-    "Access-Control-Allow-Origin": "https://claytsay.github.io",
+    "Access-Control-Allow-Origin": "http://ct3m.asuscomm.com/person_simulator",
     "Content-Type": "application/json"
   });
 
@@ -102,7 +102,7 @@ function getText(data, callback) {
 function pythonProcess(command, data, callback) {
   console.log("= = = CHILD PROCESS: Start = = =");
   let { spawn } = require("child_process");
-  // TODO: Change "python" to "python3" if necessary
+  // TODO: Change between "python" and "python3" as necessary
   let process = spawn("python", ["../python/conversation.py", command]);
   let dataString = "";
 

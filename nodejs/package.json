@@ -1,6 +1,6 @@
 {
   "name": "person_simulator",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A server backend to person_simulator.",
   "main": "start.js",
   "scripts": {

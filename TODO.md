@@ -8,6 +8,7 @@ project. Tasks are roughly organized based on subproject and category.
 - [ ] Enforce uniform terms between projects
 - [ ] Support Unicode? (This needs to be investigated.)
 - [ ] Utilise a neural network?
+- [ ] Write useful things on the GitHub project wiki
 
 
 ## [`python`](python/)
