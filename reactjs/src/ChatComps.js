@@ -53,7 +53,10 @@ class ChatForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    this.props.onSubmit({
+      name: this.state.name,
+      text: this.state.text
+    });
   };
 
   handleNameChange = (event) => {
@@ -116,17 +119,10 @@ export class ChatBox extends Component {
           "Nitrogen is a really trash element."
         ]
       }],
-    names: [],
-    name: "",
-    text: ""
+    names: []
   };
 
-  onFormSubmit = (state) => {
-    this.setState({
-      name: state.name,
-      text: state.text
-    });
-
+  onFormSubmit = (data) => {
     this.state.cards.push({
       name: "User",
       type: "Client",
@@ -134,10 +130,6 @@ export class ChatBox extends Component {
     });
     this.setState({text: ""});
 
-    let data = {
-      "name": this.state.name,
-      "text": this.state.text
-    };
     makeRequest(this.props.url, "POST", data, (responseText) => {
       let response = JSON.parse(responseText);
       this.state.cards.push({
