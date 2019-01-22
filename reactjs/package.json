@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://ct3m.asuscomm.com/person_simulator/",
   "dependencies": {
+    "node-forge": "^0.7.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"

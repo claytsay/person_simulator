@@ -1,3 +1,12 @@
+const fs = require('fs');
+const forge = require('node-forge');
+const publicKey =
+  forge.pki.publicKeyFromPem(fs.readFileSync(
+    __dirname + "/keys/publicKey1.txt", "utf8"));  // publicKey1
+const privateKey =
+  forge.pki.privateKeyFromPem(fs.readFileSync(
+    __dirname + "/keys/privateKey2.txt", "utf8")); // privateKey2
+
 // = = = = = = = = = = = = =
 // Request-Handling Functions
 // = = = = = = = = = = = = =
@@ -46,12 +55,19 @@ function handlePostRequest(request, response) {
       "Access-Control-Allow-Origin": "http://ct3m.asuscomm.com/person_simulator",
       "Content-Type": "application/json"
     });
+
     let data = {
-      name: body.name,
-      context: body.text
+      name: privateKey.decrypt(body.name),
+      context: privateKey.decrypt(body.text)
     };
+
     getText(data, (result) => {
-      response.end(result);
+      let resultJson = JSON.parse(result);
+      let resultEncrypt = {
+        name: publicKey.encrypt(resultJson.name),
+        result: publicKey.encrypt(resultJson.result)
+      };
+      response.end(JSON.stringify(resultEncrypt));
       console.log("= = = POST: End = = =");
     });
   });

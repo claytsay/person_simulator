@@ -11,5 +11,8 @@
     "url": "person_simulator"
   },
   "author": "Clay Tsay",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "node-forge": "^0.7.6"
+  }
 }
