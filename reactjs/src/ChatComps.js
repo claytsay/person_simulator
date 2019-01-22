@@ -143,18 +143,17 @@ export class ChatBox extends Component {
     let publicKey = forge.pki.publicKeyFromPem(this.state.publicKey);
     let dataEncrypt = {
       name: publicKey.encrypt(data.name),
-      text: publicKey.encrpyt(data.text)
+      text: publicKey.encrypt(data.text)
     };
 
     makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
       let responseEncrypt = JSON.parse(responseText);
       let privateKey = forge.pki.privateKeyFromPem(this.state.privateKey);
-      let response = privateKey.decrypt(responseEncrypt);
 
       this.state.cards.push({
-        name: response.name,
+        name: privateKey.decrypt(response.name),
         type: "server",
-        content: response.result
+        content: privateKey.decrypt(response.result)
       });
       this.setState(this.state);
     });
