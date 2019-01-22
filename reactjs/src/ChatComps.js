@@ -72,6 +72,7 @@ class ChatForm extends Component {
       name: this.state.name,
       text: this.state.text
     });
+    event.taget.reset();
   };
 
   render() {
@@ -142,18 +143,18 @@ export class ChatBox extends Component {
 
     let publicKey = forge.pki.publicKeyFromPem(this.state.publicKey);
     let dataEncrypt = {
-      name: publicKey.encrypt(data.name),
-      text: publicKey.encrypt(data.text)
+      name: publicKey.encrypt(forge.util.encodeUtf8(data.name)),
+      text: publicKey.encrypt(forge.util.encodeUtf8(data.text))
     };
 
     makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
-      let responseEncrypt = JSON.parse(responseText);
+      let response = JSON.parse(responseText);
       let privateKey = forge.pki.privateKeyFromPem(this.state.privateKey);
 
       this.state.cards.push({
-        name: privateKey.decrypt(response.name),
+        name: forge.util.decodeUtf8(privateKey.decrypt(response.name)),
         type: "server",
-        content: privateKey.decrypt(response.result)
+        content: forge.util.decodeUtf8(privateKey.decrypt(response.result))
       });
       this.setState(this.state);
     });

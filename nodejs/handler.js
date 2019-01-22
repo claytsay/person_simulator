@@ -57,15 +57,15 @@ function handlePostRequest(request, response) {
     });
 
     let data = {
-      name: privateKey.decrypt(body.name),
-      context: privateKey.decrypt(body.text)
+      name: forge.util.decodeUtf8(privateKey.decrypt(body.name)),
+      context: forge.util.decodeUtf8(privateKey.decrypt(body.text))
     };
 
     getText(data, (result) => {
       let resultJson = JSON.parse(result);
       let resultEncrypt = {
-        name: publicKey.encrypt(resultJson.name),
-        result: publicKey.encrypt(resultJson.result)
+        name: publicKey.encrypt(forge.util.encodeUtf8(resultJson.name)),
+        result: publicKey.encrypt(forge.util.encodeUtf8(resultJson.result))
       };
       response.end(JSON.stringify(resultEncrypt));
       console.log("= = = POST: End = = =");
