@@ -76,10 +76,10 @@ function handlePostRequest(request, response) {
     // Get and decrypt the data
     body = JSON.parse(Buffer.concat(body).toString());
     let iv = body.encryption.iv;
-    let data = JSON.stringify({
+    let data = {
       name: decipherUtf8(body.name, iv),
       context: decipherUtf8(body.text, iv)
-    });
+    };
 
     // Utilise the client-sent data
     getText(data, (result) => {
@@ -88,7 +88,7 @@ function handlePostRequest(request, response) {
       let iv = forge.random.getBytesSync(ivByteLength);
       let resultEncrypt = {
         name: cipherUtf8(resultJson.name, iv),
-        response: resultJson.map((x) => cipherUtf8(x, iv)),
+        response: resultJson.response.map((x) => cipherUtf8(x, iv)),
         encryption: {
           algorithm: algorithm,
           iv: iv,
@@ -190,7 +190,7 @@ function getNames(callback) {
  * Utilises the pythonProcess function. See that function for more
  * details.
  *
- * @param {string} data The data to be sent to the Python backend.
+ * @param {object} data The data to be sent to the Python backend.
  * @param {function} callback The function to be executed at conclusion.
  */
 function getText(data, callback) {
