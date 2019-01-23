@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
 import makeRequest from "./Utils.js";
 import * as Utils from "./Utils";
+import forge from 'node-forge';
 
 
 // = = = = = = = = = = = = =
-// React Components
+// Constants
+// = = = = = = = = = = = = =
+
+const algorithm = "AES-CBC";
+
+
+// = = = = = = = = = = = = =
+// Chat Components
 // = = = = = = = = = = = = =
 
 /**
@@ -22,11 +30,16 @@ const TextCard = (props) => {
       {props.type === "server" && <div className="name">{props.name}</div>}
       <div className="content">
         <table style={{width: 100 + "%"}}>
+          <tbody>
           {props.content.map((text) => {
-            return (<tr>
-              <div className="text">{text}</div>
-            </tr>)
+            return (
+              <tr>
+                <td>
+                  <div className="text">{text}</div>
+                </td>
+              </tr>)
           })}
+          </tbody>
         </table>
       </div>
     </div>
@@ -47,7 +60,9 @@ class ChatForm extends Component {
     super(props);
     Utils.makeRequest(this.props.url, "GET", "", (resultText) => {
       this.state.names.push(...JSON.parse(resultText));
-      this.setState(this.state);
+      this.setState({
+        name: this.state.names[0]
+      });
     });
   }
 
@@ -57,18 +72,7 @@ class ChatForm extends Component {
       name: this.state.name,
       text: this.state.text
     });
-  };
-
-  handleNameChange = (event) => {
-    this.setState({
-      name: event.target.value
-    });
-  };
-
-  handleTextChange = (event) => {
-    this.setState({
-      text: event.target.value
-    });
+    event.target.reset();
   };
 
   render() {
@@ -77,7 +81,9 @@ class ChatForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <select
             value={this.state.name}
-            onChange={this.handleNameChange}
+            onChange={(event) => {
+              this.setState({name: event.target.value});
+            }}
             required
           >
             {this.state.names.map((name) =>
@@ -89,7 +95,9 @@ class ChatForm extends Component {
           <input
             type="text"
             value={this.state.text}
-            onChange={this.handleTextChange}
+            onChange={(event) => {
+              this.setState({text: event.target.value});
+            }}
             required
           />
           <button type="submit">Send</button>
@@ -119,10 +127,12 @@ export class ChatBox extends Component {
           "Nitrogen is a really trash element."
         ]
       }],
-    names: []
+    names: [],
+    key: "",
   };
 
   onFormSubmit = (data) => {
+
     this.state.cards.push({
       name: "User",
       type: "client",
@@ -130,37 +140,214 @@ export class ChatBox extends Component {
     });
     this.setState({text: ""});
 
-    makeRequest(this.props.url, "POST", data, (responseText) => {
+    let key = forge.util.hexToBytes(this.state.key);
+    let iv = forge.random.getBytesSync(32);
+    let cipher = forge.cipher.createCipher(algorithm, key);
+    let cipherUtf8 = (plaintext) => {
+      cipher.start({iv: iv});
+      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
+      cipher.finish();
+      return cipher.output.getBytes();
+    };
+    let dataEncrypt = {
+      name: cipherUtf8(data.name),
+      text: cipherUtf8(data.text),
+      encryption: {
+        algorithm: algorithm,
+        iv: iv
+      }
+    };
+
+    makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
       let response = JSON.parse(responseText);
+
+      let key = forge.util.hexToBytes(this.state.key);
+      let iv = response.encryption.iv;
+      let decipher = forge.cipher.createDecipher(algorithm, key);
+      let decipherUtf8 = (ciphertext) => {
+        decipher.start({iv: iv});
+        decipher.update(forge.util.createBuffer(ciphertext));
+        decipher.finish();
+        return forge.util.decodeUtf8(decipher.output.getBytes());
+      };
+
       this.state.cards.push({
-        name: response.name,
+        name: decipherUtf8(response.name),
         type: "server",
-        content: response.result
+        content: response.response.map((x) => decipherUtf8(x, iv))
       });
       this.setState(this.state);
     });
   };
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  // };
-
   render() {
     return (
       <div className="chat-box">
         <table style={{width: 100 + "%"}}>
+          <tbody>
           {this.state.cards.slice(-6).map((card) =>
             <tr>
-              <TextCard {...card} />
+              <td>
+                <TextCard {...card} />
+              </td>
             </tr>
           )}
+          </tbody>
         </table>
-        <ChatForm
-          names={this.state.names}
-          onSubmit={this.onFormSubmit}
-          url={this.props.url}
+        <table style={{width: 100 + "%"}}>
+          <tbody>
+          <tr>
+            <td>
+              <ChatForm
+                names={this.state.names}
+                onSubmit={this.onFormSubmit}
+                url={this.props.url}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Symmetric Key: </label>
+              <input
+                type={"text"}
+                onChange={(event) => {
+                  this.setState({key: event.target.value});
+                }}
+                required
+              />
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+//<AuthForm onChange={(keys) => this.setState(keys)}/>
+
+
+// = = = = = = = = = = = = =
+// Authentication Components
+// = = = = = = = = = = = = =
+
+/**
+ * A React component representing two boxes in which keys go in.
+ *
+ * TODO: Get this to work. It likely does not update its state correctly.
+ * Has space for a public and private key.
+ *
+ * Props:
+ *  - **onChange**: The "callback" function to be executed every time the text
+ *  inside the input changes. The function should take one argument: an object
+ *  with the public and private keys as string attributes.
+*/
+class AuthForm extends Component {
+  state = {
+    publicKey: "",
+    privateKey: ""
+  };
+
+  handleChange = () => {
+    this.props.onChange({
+      publicKey: this.state.publicKey,
+      privateKey: this.state.privateKey
+    });
+  };
+
+  updatePk = (key) => {
+    this.setState({
+      publicKey: key
+    });
+    this.handleChange();
+  };
+
+  updateSk = (key) => {
+    this.setState({
+      privateKey: key
+    });
+    this.handleChange();
+  };
+
+  render() {
+    let pkId = "outgoing-pk", skId = "incoming-sk";
+
+    return (
+      <div className={"auth-form"}>
+        <table style={{width: 100 + "%"}}>
+          <tbody>
+          <tr>
+            <td>
+              <label>Outgoing encryption public key: </label>
+              <input
+                type={"text"}
+                onChange={(event) => {
+                  this.setState({publicKey: event.target.value});
+                  this.handleChange()
+                }}
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Incoming decryption private key: </label>
+              <input
+                type={"text"}
+                onChange={(event) => {
+                this.setState({privateKey: event.target.value});
+                this.handleChange()
+              }}
+                required
+              />
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+
+// = = = = = = = = = = = = =
+// Miscellaneous
+// = = = = = = = = = = = = =
+
+/**
+ * A React component representing a box in which to type stuff in.
+ *
+ * TODO: Update this to work. It may not update its state correctly.
+ * Has the "required" tag on.
+ *
+ * Props:
+ *  - **onChange**: The "callback" function to be executed every time the text
+ *  inside the input changes. The function should take one argument: what is
+ *  inside the input box.
+ *  - **description**: The description that should be displayed as a label to
+ *  the input box.
+ */
+class TextForm extends Component {
+  state = {
+    text: ""
+  };
+
+  handleChange = (event) => {
+    this.setState({text: event.target.value});
+    this.props.onChange(this.state.text);
+  };
+
+  render() {
+    return (
+      <div className={this.props.className}>
+        <label>{this.props.description}</label>
+        <input
+          type={"text"}
+          onChange={this.handleChange}
+          onPaste={() => setTimeout(this.handleChange)}
+          required
         />
       </div>
     );
   }
+
 }

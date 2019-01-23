@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import * as AuthComp from './AuthComps.js';
 import * as ChatComps from './ChatComps.js';
-import * as Utils from './Utils.js';
 import './App.css';
 
 const url = "http://ct3m.asuscomm.com/person_simulator/api";

@@ -14,7 +14,7 @@ def get_names():
     the people in the chats specified under filenames_filename.
     """
 
-    # TODO: Reformat lines to corform to PEP-8
+    # TODO: Reformat lines to conform to PEP-8
     names = set()
     with open(filenames_filename, "r", encoding="utf-8") as filenames_file:
         filenames = list(map(lambda x: x.strip(
@@ -60,10 +60,10 @@ def get_phrase():
     input_json = json.loads(stdin.readlines()[0])
     person = load_person(input_json["name"])
     context = TextBlock(None, input_json["context"])
-    result = person.get_text_ratio(context)
+    response = person.get_text_ratio(context)
     print(json.dumps({
         "name": person.name,
-        "result": result
+        "response": response
     }))
 
 
