@@ -60,10 +60,10 @@ def get_phrase():
     input_json = json.loads(stdin.readlines()[0])
     person = load_person(input_json["name"])
     context = TextBlock(None, input_json["context"])
-    result = person.get_text_ratio(context)
+    response = person.get_text_ratio(context)
     print(json.dumps({
         "name": person.name,
-        "result": result
+        "response": response
     }))
 
 

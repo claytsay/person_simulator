@@ -8,7 +8,7 @@ import forge from 'node-forge';
 // Constants
 // = = = = = = = = = = = = =
 
-const rsa = forge.pki.rsa;
+const algorithm = "AES-CBC";
 
 
 // = = = = = = = = = = = = =
@@ -72,7 +72,7 @@ class ChatForm extends Component {
       name: this.state.name,
       text: this.state.text
     });
-    event.taget.reset();
+    event.target.reset();
   };
 
   render() {
@@ -128,8 +128,7 @@ export class ChatBox extends Component {
         ]
       }],
     names: [],
-    publicKey: "",
-    privateKey: ""
+    key: "",
   };
 
   onFormSubmit = (data) => {
@@ -141,20 +140,41 @@ export class ChatBox extends Component {
     });
     this.setState({text: ""});
 
-    let publicKey = forge.pki.publicKeyFromPem(this.state.publicKey);
+    let key = forge.util.hexToBytes(this.state.key);
+    let iv = forge.random.getBytesSync(32);
+    let cipher = forge.createCipher(algorithm, key);
+    let cipherUtf8 = (plaintext) => {
+      cipher.start({iv: iv});
+      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
+      cipher.finish();
+      return cipher.output;
+    };
     let dataEncrypt = {
-      name: publicKey.encrypt(forge.util.encodeUtf8(data.name)),
-      text: publicKey.encrypt(forge.util.encodeUtf8(data.text))
+      name: cipherUtf8(data.name),
+      text: cipherUtf8(data.text),
+      encryption: {
+        algorithm: algorithm,
+        iv: iv
+      }
     };
 
     makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
       let response = JSON.parse(responseText);
-      let privateKey = forge.pki.privateKeyFromPem(this.state.privateKey);
+
+      let key = forge.util.hexToBytes(this.state.key);
+      let iv = forge.random.getBytesSync(32);
+      let decipher = forge.createDecipher(algorithm, key);
+      let decipherUtf8 = (ciphertext) => {
+        decipher.start({iv: iv});
+        decipher.update(forge.util.createBuffer(ciphertext));
+        decipher.finish();
+        return forge.util.decodeUtf8(decipher.output);
+      };
 
       this.state.cards.push({
-        name: forge.util.decodeUtf8(privateKey.decrypt(response.name)),
+        name: decipherUtf8(response.name),
         type: "server",
-        content: forge.util.decodeUtf8(privateKey.decrypt(response.result))
+        content: decipherUtf8(response.response)
       });
       this.setState(this.state);
     });
@@ -174,28 +194,20 @@ export class ChatBox extends Component {
           )}
           </tbody>
         </table>
-        <ChatForm
-          names={this.state.names}
-          onSubmit={this.onFormSubmit}
-          url={this.props.url}
-        />
         <table style={{width: 100 + "%"}}>
           <tbody>
           <tr>
             <td>
-              <label>Outgoing encryption public key: </label>
-              <input
-                type={"text"}
-                onChange={(event) => {
-                  this.setState({publicKey: event.target.value});
-                }}
-                required
+              <ChatForm
+                names={this.state.names}
+                onSubmit={this.onFormSubmit}
+                url={this.props.url}
               />
             </td>
           </tr>
           <tr>
             <td>
-              <label>Incoming decryption private key: </label>
+              <label>Symmetric Key: </label>
               <input
                 type={"text"}
                 onChange={(event) => {
@@ -221,7 +233,7 @@ export class ChatBox extends Component {
 /**
  * A React component representing two boxes in which keys go in.
  *
- * TODO: Get this to work. It may not update its state correctly.
+ * TODO: Get this to work. It likely does not update its state correctly.
  * Has space for a public and private key.
  *
  * Props:
