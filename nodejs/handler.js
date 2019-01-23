@@ -75,7 +75,7 @@ function handlePostRequest(request, response) {
 
     // Get and decrypt the data
     body = JSON.parse(Buffer.concat(body).toString());
-    let iv = body.iv;
+    let iv = body.encryption.iv;
     let data = JSON.stringify({
       name: decipherUtf8(body.name, iv),
       context: decipherUtf8(body.text, iv)

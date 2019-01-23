@@ -162,7 +162,7 @@ export class ChatBox extends Component {
       let response = JSON.parse(responseText);
 
       let key = forge.util.hexToBytes(this.state.key);
-      let iv = forge.random.getBytesSync(32);
+      let iv = response.encryption.iv;
       let decipher = forge.cipher.createDecipher(algorithm, key);
       let decipherUtf8 = (ciphertext) => {
         decipher.start({iv: iv});
