@@ -147,7 +147,7 @@ export class ChatBox extends Component {
       cipher.start({iv: iv});
       cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
       cipher.finish();
-      return cipher.output;
+      return cipher.output.getBytes();
     };
     let dataEncrypt = {
       name: cipherUtf8(data.name),
@@ -168,7 +168,7 @@ export class ChatBox extends Component {
         decipher.start({iv: iv});
         decipher.update(forge.util.createBuffer(ciphertext));
         decipher.finish();
-        return forge.util.decodeUtf8(decipher.output);
+        return forge.util.decodeUtf8(decipher.output.getBytes());
       };
 
       this.state.cards.push({

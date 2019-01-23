@@ -119,7 +119,7 @@ function cipherUtf8(plaintext, iv) {
   cipher.start({iv: iv});
   cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
   cipher.finish();
-  return cipher.output;
+  return cipher.output.getBytes();
 }
 
 /**
@@ -133,7 +133,7 @@ function decipherUtf8(ciphertext, iv) {
   decipher.start({iv: iv});
   decipher.update(forge.util.createBuffer(ciphertext));
   decipher.finish();
-  return forge.util.decodeUtf8(decipher.output);
+  return forge.util.decodeUtf8(decipher.output.getBytes());
 }
 
 
@@ -153,7 +153,7 @@ function pythonProcess(command, data, callback) {
   console.log("= = = CHILD PROCESS: Start = = =");
   let {spawn} = require("child_process");
   // TODO: Change between "python" and "python3" as necessary
-  let process = spawn("python", ["../python/conversation.py", command]);
+  let process = spawn("python3", ["../python/conversation.py", command]);
   let dataString = "";
 
   process.stdout.on('data', (data) => {
