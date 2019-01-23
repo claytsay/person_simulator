@@ -88,7 +88,7 @@ function handlePostRequest(request, response) {
       let iv = forge.random.getBytesSync(ivByteLength);
       let resultEncrypt = {
         name: cipherUtf8(resultJson.name, iv),
-        response: cipherUtf8(resultJson.response, iv),
+        response: resultJson.map((x) => cipherUtf8(x, iv)),
         encryption: {
           algorithm: algorithm,
           iv: iv,

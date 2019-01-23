@@ -174,7 +174,7 @@ export class ChatBox extends Component {
       this.state.cards.push({
         name: decipherUtf8(response.name),
         type: "server",
-        content: decipherUtf8(response.response)
+        content: response.response.map((x) => decipherUtf8(x, iv))
       });
       this.setState(this.state);
     });
