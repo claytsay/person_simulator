@@ -211,7 +211,7 @@ export class ChatBox extends Component {
               <input
                 type={"text"}
                 onChange={(event) => {
-                  this.setState({privateKey: event.target.value});
+                  this.setState({key: event.target.value});
                 }}
                 required
               />
