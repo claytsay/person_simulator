@@ -142,7 +142,7 @@ export class ChatBox extends Component {
 
     let key = forge.util.hexToBytes(this.state.key);
     let iv = forge.random.getBytesSync(32);
-    let cipher = forge.createCipher(algorithm, key);
+    let cipher = forge.cipher.createCipher(algorithm, key);
     let cipherUtf8 = (plaintext) => {
       cipher.start({iv: iv});
       cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
@@ -163,7 +163,7 @@ export class ChatBox extends Component {
 
       let key = forge.util.hexToBytes(this.state.key);
       let iv = forge.random.getBytesSync(32);
-      let decipher = forge.createDecipher(algorithm, key);
+      let decipher = forge.cipher.createDecipher(algorithm, key);
       let decipherUtf8 = (ciphertext) => {
         decipher.start({iv: iv});
         decipher.update(forge.util.createBuffer(ciphertext));
