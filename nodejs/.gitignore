@@ -2,3 +2,9 @@
 /node_modules
 /.pnp
 .pnp.js
+
+# Logs
+/logs
+
+# Cryptographic keys
+/keys

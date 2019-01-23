@@ -1,6 +1,14 @@
 const fs = require('fs');
 const forge = require('node-forge');
+const logger = require('./logger.js');
 
+// = = = = = = = = = = = = =
+// Constants & Data Loading
+// = = = = = = = = = = = = =
+
+// Cryptographic constants
+const generate = require("./generate.js");
+generate.genAesKey(32);
 /**
  * What algorithm to use in the cryptography.
  * @type {string}
@@ -17,11 +25,13 @@ const key = forge.util.hexToBytes(
 const cipher = forge.cipher.createCipher(algorithm, key);
 const decipher = forge.cipher.createDecipher(algorithm, key);
 
+// Other constants
 /**
  * The URL from which to allow access (i.e. from Allow-Access-Control-Origin).
  * @type {string}
  */
 const urlAcao = "http://ct3m.asuscomm.com/person_simulator";
+
 
 // = = = = = = = = = = = = =
 // Request-Handling Functions
@@ -35,7 +45,8 @@ const urlAcao = "http://ct3m.asuscomm.com/person_simulator";
  * @param {ServerResponse} response The outgoing HTTP response.
  */
 function handleGetRequest(request, response) {
-  console.log("= = = GET: Start = = =");
+  console.log("= = = GET = = =");
+  logger.logToRequest("GET", "start");
 
   response.writeHead(200, {
     "Access-Control-Allow-Origin": urlAcao,
@@ -44,7 +55,7 @@ function handleGetRequest(request, response) {
 
   getNames((result) => {
     response.end(result);
-    console.log("= = = GET: End = = =");
+    logger.logToRequest("GET", "end");
   });
 }
 
@@ -58,7 +69,8 @@ function handleGetRequest(request, response) {
  * @param {ServerResponse} response The outgoing HTTP response.
  */
 function handlePostRequest(request, response) {
-  console.log("= = = POST: Start = = =");
+  console.log("= = = POST = = =");
+  logger.logToRequest("POST", "start");
 
   let body = [];
   request.on('error', (err) => {
@@ -80,11 +92,14 @@ function handlePostRequest(request, response) {
       name: decipherUtf8(body.name, iv),
       context: decipherUtf8(body.text, iv)
     };
+    logger.logToChat("User", data.context);
 
     // Utilise the client-sent data
     getText(data, (result) => {
-      // Encrypt the result
       let resultJson = JSON.parse(result);
+      logger.logToChat(resultJson.name, resultJson.response);
+
+      // Encrypt the result
       let iv = forge.random.getBytesSync(ivByteLength);
       let resultEncrypt = {
         name: cipherUtf8(resultJson.name, iv),
@@ -98,7 +113,7 @@ function handlePostRequest(request, response) {
 
       // Send it back to the client
       response.end(JSON.stringify(resultEncrypt));
-      console.log("= = = POST: End = = =");
+      logger.logToRequest("POST", "end");
     });
   });
 }

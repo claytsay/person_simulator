@@ -11,14 +11,14 @@ const forge = require('node-forge');
  */
 function genAesKey(bytes=32) {
   let key = forge.random.getBytesSync(bytes);
+  let keyHex = forge.util.bytesToHex(key);
   fs.writeFileSync(
     __dirname + "/keys/AES-key.txt",
-    forge.util.bytesToHex(key)
+    keyHex
   );
-  console.log(`Generated ${bytes}-byte AES key.`);
+  console.log(`Generated ${bytes}-byte AES key:`);
+  console.log(keyHex);
 }
-
-genAesKey(32);
 
 module.exports = {
   genAesKey: genAesKey
