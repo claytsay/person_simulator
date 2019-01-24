@@ -97,7 +97,9 @@ function handlePostRequest(request, response) {
     // Utilise the client-sent data
     getText(data, (result) => {
       let resultJson = JSON.parse(result);
-      logger.logToChat(resultJson.name, resultJson.response);
+      resultJson.response.forEach((text) => {
+        logger.logToChat(resultJson.name, text);
+      });
 
       // Encrypt the result
       let iv = forge.random.getBytesSync(ivByteLength);
@@ -165,7 +167,7 @@ function decipherUtf8(ciphertext, iv) {
  *  data returned by the Python computation.
  */
 function pythonProcess(command, data, callback) {
-  console.log("= = = CHILD PROCESS: Start = = =");
+  console.log("= = = CHILD PROCESS = = =");
   let {spawn} = require("child_process");
   // TODO: Change between "python" and "python3" as necessary
   let process = spawn("python3", ["../python/conversation.py", command]);
@@ -175,7 +177,7 @@ function pythonProcess(command, data, callback) {
     dataString += data.toString();
   });
   process.stdout.on('end', () => {
-    console.log("= = = CHILD PROCESS: End = = =");
+    console.log("= = = CHILD PROCESS = = =");
     return callback(dataString);
   });
 

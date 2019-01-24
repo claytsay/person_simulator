@@ -35,7 +35,7 @@ async function logToChat(sender_name, content) {
 /**
  * Logs error data.
  *
- * @param error The error that has occured.
+ * @param error The error that has occurred.
  * @returns {Promise<void>} Nothing.
  */
 async function logToError(error) {

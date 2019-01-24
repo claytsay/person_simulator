@@ -5,7 +5,7 @@ const forge = require('node-forge');
  * Generates an AES key.
  *
  * Generates the key synchronously and writes it to a file as a hexadecimal
- * value. Writes to "/keys/AES-key.txt".
+ * value. Writes to "/keys/AES-key.txt" and the console.
  *
  * @param {int} bytes The length/size of the key.
  */
