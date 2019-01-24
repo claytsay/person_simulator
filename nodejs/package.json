@@ -13,6 +13,7 @@
   "author": "Clay Tsay",
   "license": "UNLICENSED",
   "dependencies": {
+    "express": "^4.16.4",
     "node-forge": "^0.7.6"
   }
 }

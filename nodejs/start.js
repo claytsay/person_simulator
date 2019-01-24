@@ -19,12 +19,3 @@ app.post("/person_simulator/api", handler.handlePostRequest);
 app.listen(port, () => {
   console.log(`Server running! Listening on port ${port}.`);
 });
-
-/**
- * TODO
- * @param {*} key
- */
-function verifyKey(key) {
-  return key == "aoeu" ? true : false;
-}
-
