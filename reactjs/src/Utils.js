@@ -92,7 +92,7 @@ export function decryptData(data, key, iv) {
     };
   }
   catch (e) {
-    console.log(`decryptData: Error in decrypting incoming message. ${e}`);
+    console.error(`decryptData: Error in decrypting incoming message. ${e}`);
     return {
       name: "",
       type: "server",

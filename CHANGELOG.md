@@ -1,10 +1,26 @@
 # Changelog
 
+## Version 0.3.1
+A minor update to fix all the bugs associated with 0.3.0.
+
+- Fixed bugs
+  - Server can now handle unexpected data
+    - Python backend provides a skeleton reply if it cannot process the data
+    - Node.js backend provides a skeleton reply if it cannot encrypt/decrypt
+    the data
+  - Client can handle invalid keys (i.e. incorrect encryption)
+  - Logs are now correctly implemented and formatted
+- Improved frontend UI
+  - Removed sample chat log
+  - Made the chat form clear itself every time a message is sent
+- Deleted some unnecessary comments
+
+
 ## Version 0.3.0
 Many changes. Hopefully I won't have to release a hotfix for this version.
 
 - Added encryption (i.e. poor person's HTTPS)
-  - Utilises AES-256 algorithm
+  - Utilises AES-256
     - Unique key generated on server startup
     - Users must have key to use service properly
     - Two-way encrypted traffic

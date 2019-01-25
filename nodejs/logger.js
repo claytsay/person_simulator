@@ -29,7 +29,7 @@ async function logToChat(sender_name, content) {
     content: content,
     type: "Generic"
   };
-  chat.write(JSON.stringify(data, null, 2) + "\n");
+  chat.write(JSON.stringify(data, null, 2) + ",\n");
 }
 
 /**

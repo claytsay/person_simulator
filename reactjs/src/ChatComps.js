@@ -47,7 +47,7 @@ const TextCard = (props) => {
 };
 
 /**
- * TODO: Write this.
+ * Renders a form in which a user can input
  */
 class ChatForm extends Component {
   state = {
@@ -72,13 +72,13 @@ class ChatForm extends Component {
       name: this.state.name,
       text: this.state.text
     });
-    event.target.reset();
+    this.state.text = "";
   };
 
   render() {
     return (
       <div className="chat-form">
-        <form onSubmit={this.handleSubmit}>
+        <form id="chat-form-form" onSubmit={this.handleSubmit}>
           <select
             value={this.state.name}
             onChange={(event) => {
@@ -116,21 +116,7 @@ class ChatForm extends Component {
  */
 export class ChatBox extends Component {
   state = {
-    cards: [{
-      name: "You",
-      type: "client",
-      content: [
-        "I really like nitrogen.",
-        "It's a cool element."
-      ]
-    },
-      {
-        name: "Someone Else",
-        type: "server",
-        content: [
-          "Nitrogen is a really trash element."
-        ]
-      }],
+    cards: [],
     names: [],
     key: "",
   };
@@ -145,43 +131,10 @@ export class ChatBox extends Component {
     this.setState({text: ""});
 
     let dataEncrypt = Utils.encryptData(data, this.state.key);
-    //
-    // let key = forge.util.hexToBytes(this.state.key);
-    // let iv = forge.random.getBytesSync(32);
-    // let cipher = forge.cipher.createCipher(algorithm, key);
-    // let cipherUtf8 = (plaintext) => {
-    //   cipher.start({iv: iv});
-    //   cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
-    //   cipher.finish();
-    //   return cipher.output.getBytes();
-    // };
-    // let dataEncrypt = {
-    //   name: cipherUtf8(data.name),
-    //   text: cipherUtf8(data.text),
-    //   encryption: {
-    //     algorithm: algorithm,
-    //     iv: iv
-    //   }
-    // };
 
     makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
       let response = JSON.parse(responseText);
 
-      // let key = forge.util.hexToBytes(this.state.key);
-      // let iv = response.encryption.iv;
-      // let decipher = forge.cipher.createDecipher(algorithm, key);
-      // let decipherUtf8 = (ciphertext) => {
-      //   decipher.start({iv: iv});
-      //   decipher.update(forge.util.createBuffer(ciphertext));
-      //   decipher.finish();
-      //   return forge.util.decodeUtf8(decipher.output.getBytes());
-      // };
-      //
-      // this.state.cards.push({
-      //   name: decipherUtf8(response.name),
-      //   type: "server",
-      //   content: response.response.map((x) => decipherUtf8(x, iv))
-      // });
       this.state.cards.push(Utils.decryptData(
         response,
         this.state.key,
