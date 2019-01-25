@@ -108,7 +108,11 @@ class ChatForm extends Component {
 }
 
 /**
- * TODO: Write this.
+ * A React components that handles chat I/O with respect to the user.
+ *
+ * Provides a place for users to input and chat message and to see the output.
+ * Also gives a place
+ *
  */
 export class ChatBox extends Component {
   state = {
@@ -140,42 +144,45 @@ export class ChatBox extends Component {
     });
     this.setState({text: ""});
 
-    let key = forge.util.hexToBytes(this.state.key);
-    let iv = forge.random.getBytesSync(32);
-    let cipher = forge.cipher.createCipher(algorithm, key);
-    let cipherUtf8 = (plaintext) => {
-      cipher.start({iv: iv});
-      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
-      cipher.finish();
-      return cipher.output.getBytes();
-    };
-    let dataEncrypt = {
-      name: cipherUtf8(data.name),
-      text: cipherUtf8(data.text),
-      encryption: {
-        algorithm: algorithm,
-        iv: iv
-      }
-    };
+    let dataEncrypt = Utils.encryptUtf8(data);
+    //
+    // let key = forge.util.hexToBytes(this.state.key);
+    // let iv = forge.random.getBytesSync(32);
+    // let cipher = forge.cipher.createCipher(algorithm, key);
+    // let cipherUtf8 = (plaintext) => {
+    //   cipher.start({iv: iv});
+    //   cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
+    //   cipher.finish();
+    //   return cipher.output.getBytes();
+    // };
+    // let dataEncrypt = {
+    //   name: cipherUtf8(data.name),
+    //   text: cipherUtf8(data.text),
+    //   encryption: {
+    //     algorithm: algorithm,
+    //     iv: iv
+    //   }
+    // };
 
     makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
       let response = JSON.parse(responseText);
 
-      let key = forge.util.hexToBytes(this.state.key);
-      let iv = response.encryption.iv;
-      let decipher = forge.cipher.createDecipher(algorithm, key);
-      let decipherUtf8 = (ciphertext) => {
-        decipher.start({iv: iv});
-        decipher.update(forge.util.createBuffer(ciphertext));
-        decipher.finish();
-        return forge.util.decodeUtf8(decipher.output.getBytes());
-      };
-
-      this.state.cards.push({
-        name: decipherUtf8(response.name),
-        type: "server",
-        content: response.response.map((x) => decipherUtf8(x, iv))
-      });
+      // let key = forge.util.hexToBytes(this.state.key);
+      // let iv = response.encryption.iv;
+      // let decipher = forge.cipher.createDecipher(algorithm, key);
+      // let decipherUtf8 = (ciphertext) => {
+      //   decipher.start({iv: iv});
+      //   decipher.update(forge.util.createBuffer(ciphertext));
+      //   decipher.finish();
+      //   return forge.util.decodeUtf8(decipher.output.getBytes());
+      // };
+      //
+      // this.state.cards.push({
+      //   name: decipherUtf8(response.name),
+      //   type: "server",
+      //   content: response.response.map((x) => decipherUtf8(x, iv))
+      // });
+      this.state.cards.push(Utils.decryptUtf8(response));
       this.setState(this.state);
     });
   };

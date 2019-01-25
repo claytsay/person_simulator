@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 0.3.0
+Many changes. Hopefully I won't have to release a hotfix for this version.
+
+- Added encryption (i.e. poor person's HTTPS)
+  - Utilises AES-256 algorithm
+    - Unique key generated on server startup
+    - Users must have key to use service properly
+    - Two-way encrypted traffic
+  - Errors in encryption should not crash the server or the webpage
+- Added event logging
+  - Logs HTTP requests, errors, and what messages were sent/received
+- Attempted to clean up code
+  - Tried to make functions more separated
+
+
 ## Version 0.2.1
 - Migrated the React frontend from GitHub Pages to Node.js
   - Changed URLs around in [handler.js](nodejs/handler.js)
@@ -13,6 +28,7 @@
 - Resolved miscellaneous formatting issues:
   - Fixed `README.md`
   - Added semicolons to various `.js` files
+
 
 ## Version 0.2.0
 At this stage, the program doesn't really work as the React frontend on GitHub

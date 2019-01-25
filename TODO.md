@@ -4,11 +4,15 @@ project. Tasks are roughly organized based on subproject and category.
 
 
 ## Overall
-- [ ] Clean up [`README.md`](README.md)
-- [ ] Enforce uniform terms between projects
-- [ ] Support Unicode? (This needs to be investigated.)
+- [ ] Enforce uniformity between projects
+  - [ ] Define communication standards between different projects
+  - [ ] Reuse more code, especially between `nodejs` and `reactjs`
+  - [ ] Use common terms to describe similar data
+- [ ] Find a better way to test if the program works
+- [ ] Support emoji? (This needs to be investigated.)
 - [ ] Utilise a neural network?
 - [ ] Write useful things on the GitHub project wiki
+- [X] Clean up [`README.md`](README.md)
 
 
 ## [`python`](python/)
@@ -28,10 +32,15 @@ project. Tasks are roughly organized based on subproject and category.
 ### Documentation
 - [ ] Write proper JSDocs
 
+### Mechanics
+- [ ] Seperate/organize code
+- [ ] Make functions more generalizeable
+
 
 ## [`reactjs`](reactjs/)
 ### Documentation
 - [ ] Write proper JSDocs
 
 ### Mechanics
-- [ ] Create a good UI
+- [ ] Improve component seperation and communication
+- [X] Create a good UI

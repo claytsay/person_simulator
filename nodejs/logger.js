@@ -29,7 +29,7 @@ async function logToChat(sender_name, content) {
     content: content,
     type: "Generic"
   };
-  chat.write(JSON.stringify(data, null, 2));
+  chat.write(JSON.stringify(data, null, 2) + "\n");
 }
 
 /**
@@ -40,7 +40,8 @@ async function logToChat(sender_name, content) {
  */
 async function logToError(error) {
   let date = new Date().toString();
-  error.write(date + ": " + error.toString());
+  console.log(`${date}: ERROR ==> ${error.toString()}`);
+  error.write(date + ": " + error.toString() + "\n");
 }
 
 /**
@@ -52,7 +53,7 @@ async function logToError(error) {
  */
 async function logToRequest(method, status) {
   let date = new Date().toString();
-  request.write(date + ": " + method + " --- " + status);
+  request.write(date + ": " + method + " --- " + status + "\n");
 }
 
 

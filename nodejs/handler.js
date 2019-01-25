@@ -128,29 +128,49 @@ function handlePostRequest(request, response) {
 /**
  * Encrypts a line of text.
  *
+ * If encryption fails for whatever reason, returns an empty string
+ * and logs an error.
+ *
  * @param {string} plaintext What is to be encrypted, coded in UTF-8.
  * @param {string} iv The IV to be used in encryption, as a binary string.
  * @returns {string} Binary string representing the encrypted text.
  */
 function cipherUtf8(plaintext, iv) {
-  cipher.start({iv: iv});
-  cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
-  cipher.finish();
-  return cipher.output.getBytes();
+  try {
+    cipher.start({iv: iv});
+    cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
+    cipher.finish();
+    return cipher.output.getBytes();
+  }
+  catch (e) {
+    logger.logToError(e);
+    return "";
+  }
+
 }
 
 /**
  * Decrypts a line of text.
+ *
+ * If decryption fails for whatever reason, returns an empty string
+ * and logs an error.
  *
  * @param {string} ciphertext What is to be decrypted, as a binary string.
  * @param {string} iv The IV to be used in decryption, as a binary string.
  * @returns {string} UTF-8 string representing the decrypted text.
  */
 function decipherUtf8(ciphertext, iv) {
-  decipher.start({iv: iv});
-  decipher.update(forge.util.createBuffer(ciphertext));
-  decipher.finish();
-  return forge.util.decodeUtf8(decipher.output.getBytes());
+  try {
+    decipher.start({iv: iv});
+    decipher.update(forge.util.createBuffer(ciphertext));
+    decipher.finish();
+    return forge.util.decodeUtf8(decipher.output.getBytes());
+  }
+  catch (e) {
+    logger.logToError(e);
+    return "";
+  }
+
 }
 
 
@@ -177,12 +197,12 @@ function pythonProcess(command, data, callback) {
     dataString += data.toString();
   });
   process.stdout.on('end', () => {
-    console.log("= = = CHILD PROCESS = = =");
+    // console.log("= = = CHILD PROCESS = = =");
     return callback(dataString);
   });
 
   process.stderr.on('data', (data) => {
-    console.log(`= = = CHILD PROCESS: Error - ${data} = = =`);
+    logger.logToError(data);
   });
 
   process.stdin.write(JSON.stringify(data));
