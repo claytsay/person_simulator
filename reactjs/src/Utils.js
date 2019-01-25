@@ -25,7 +25,7 @@ const algorithm = "AES-CBC";
  * @returns {{name: string, text: string, encryption: object}} The encrypted
  * data object.
  */
-export function encryptUtf8(data, key) {
+export function encryptData(data, key) {
   try {
     let keyBytes = forge.util.hexToBytes(key);
     let iv = forge.random.getBytesSync(32);
@@ -46,7 +46,7 @@ export function encryptUtf8(data, key) {
     };
   }
   catch (e) {
-    console.error("encryptUtf8: Error in encrypting outgoing message.");
+    console.error(`encryptData: Error in encrypting outgoing message. ${e}`);
     return {
       name: "",
       text: "",
@@ -75,7 +75,7 @@ export function encryptUtf8(data, key) {
  * @returns {{name: string, type: string, content: object}} The encrypted
  * data object.
  */
-export function decryptUtf8(data, key, iv) {
+export function decryptData(data, key, iv) {
   try {
     let keyBytes = forge.util.hexToBytes(key);
     let decipher = forge.cipher.createDecipher(algorithm, keyBytes);
@@ -92,7 +92,7 @@ export function decryptUtf8(data, key, iv) {
     };
   }
   catch (e) {
-    console.log("decryptUtf8: Error in decrypting incoming message.");
+    console.log(`decryptData: Error in decrypting incoming message. ${e}`);
     return {
       name: "",
       type: "server",

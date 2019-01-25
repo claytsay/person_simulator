@@ -60,11 +60,15 @@ def get_phrase():
     input_json = json.loads(stdin.readlines()[0])
     person = load_person(input_json["name"])
     context = TextBlock(None, input_json["context"])
-    response = person.get_text_ratio(context)
-    print(json.dumps({
-        "name": person.name,
-        "response": response
-    }))
+    try:
+        response = person.get_text_ratio(context)
+    except ValueError:
+        response = ""
+    finally:
+        print(json.dumps({
+            "name": person.name,
+            "response": response
+        }))
 
 
 def conversation_gui():

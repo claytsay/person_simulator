@@ -144,7 +144,7 @@ export class ChatBox extends Component {
     });
     this.setState({text: ""});
 
-    let dataEncrypt = Utils.encryptUtf8(data);
+    let dataEncrypt = Utils.encryptData(data, this.state.key);
     //
     // let key = forge.util.hexToBytes(this.state.key);
     // let iv = forge.random.getBytesSync(32);
@@ -182,7 +182,11 @@ export class ChatBox extends Component {
       //   type: "server",
       //   content: response.response.map((x) => decipherUtf8(x, iv))
       // });
-      this.state.cards.push(Utils.decryptUtf8(response));
+      this.state.cards.push(Utils.decryptData(
+        response,
+        this.state.key,
+        response.encryption.iv
+      ));
       this.setState(this.state);
     });
   };
