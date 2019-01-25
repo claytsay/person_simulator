@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const chat = fs.createWriteStream(
   __dirname + "/logs/chat.json", {flags: 'a'});
-const error = fs.createWriteStream(
+const err = fs.createWriteStream(
   __dirname + "/logs/error.log", {flags: 'a'});
 const request = fs.createWriteStream(
   __dirname + "/logs/request.log", {flags: 'a'});
@@ -41,7 +41,7 @@ async function logToChat(sender_name, content) {
 async function logToError(error) {
   let date = new Date().toString();
   console.log(`${date}: ERROR ==> ${error.toString()}`);
-  error.write(date + ": " + error.toString() + "\n");
+  err.write(date + ": " + error.toString() + "\n");
 }
 
 /**

@@ -57,18 +57,22 @@ def get_phrase():
             the user input).
     """
     # TODO: Optimise this code.
-    input_json = json.loads(stdin.readlines()[0])
-    person = load_person(input_json["name"])
-    context = TextBlock(None, input_json["context"])
     try:
+        input_json = json.loads(stdin.readlines()[0])
+        person = load_person(input_json["name"])
+        context = TextBlock(None, input_json["context"])
         response = person.get_text_ratio(context)
-    except ValueError:
-        response = ""
-    finally:
-        print(json.dumps({
+        result = {
             "name": person.name,
             "response": response
-        }))
+        }
+    except ValueError:
+        result = {
+            "name": "",
+            "response": [""]
+        }
+    finally:
+        print(json.dumps(result))
 
 
 def conversation_gui():
