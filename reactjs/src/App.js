@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import * as ChatComps from './ChatComps.js';
 import './App.css';
 
-const url = "http://ct3m.asuscomm.com/person_simulator/api";
+const url = "http://clay.tsay.us/projects/person_simulator/api";
 
 class App extends Component {
   render() {

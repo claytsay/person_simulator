@@ -4,7 +4,6 @@ from chat_utils import *
 
 
 filenames_filename = "../data_example/filenames-examples.txt"
-# filenames_filename = "../data/filenames.txt"
 
 def get_names():
     """Gets all the names in all the chats.
@@ -143,9 +142,13 @@ def conversation_gui():
 
 
 if __name__ == "__main__":
+    if len(argv) != 2:
+        raise ValueError("Invalid number of command line arguments.")
     if argv[1] == "names":
         get_names()
     elif argv[1] == "phrase":
         get_phrase()
+    elif argv[1] == "gui":
+        conversation_gui()
     else:
         raise ValueError("Invalid command line argument.")

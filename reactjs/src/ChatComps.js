@@ -1,14 +1,6 @@
 import React, {Component} from 'react';
 import makeRequest from "./Utils.js";
 import * as Utils from "./Utils";
-import forge from 'node-forge';
-
-
-// = = = = = = = = = = = = =
-// Constants
-// = = = = = = = = = = = = =
-
-const algorithm = "AES-CBC";
 
 
 // = = = = = = = = = = = = =
@@ -72,7 +64,7 @@ class ChatForm extends Component {
       name: this.state.name,
       text: this.state.text
     });
-    this.state.text = "";
+    this.setState({text: ""});
   };
 
   render() {
@@ -111,8 +103,6 @@ class ChatForm extends Component {
  * A React components that handles chat I/O with respect to the user.
  *
  * Provides a place for users to input and chat message and to see the output.
- * Also gives a place
- *
  */
 export class ChatBox extends Component {
   state = {
@@ -122,7 +112,6 @@ export class ChatBox extends Component {
   };
 
   onFormSubmit = (data) => {
-
     this.state.cards.push({
       name: "User",
       type: "client",
@@ -130,16 +119,13 @@ export class ChatBox extends Component {
     });
     this.setState({text: ""});
 
-    let dataEncrypt = Utils.encryptData(data, this.state.key);
-
-    makeRequest(this.props.url, "POST", dataEncrypt, (responseText) => {
+    makeRequest(this.props.url, "POST", data, (responseText) => {
       let response = JSON.parse(responseText);
-
-      this.state.cards.push(Utils.decryptData(
-        response,
-        this.state.key,
-        response.encryption.iv
-      ));
+      this.state.cards.push({
+        name: response.name,
+        type: 'server',
+        content: response.response
+      });
       this.setState(this.state);
     });
   };
@@ -169,149 +155,9 @@ export class ChatBox extends Component {
               />
             </td>
           </tr>
-          <tr>
-            <td>
-              <label>Symmetric Key: </label>
-              <input
-                type={"text"}
-                onChange={(event) => {
-                  this.setState({key: event.target.value});
-                }}
-                required
-              />
-            </td>
-          </tr>
           </tbody>
         </table>
       </div>
     );
   }
-}
-//<AuthForm onChange={(keys) => this.setState(keys)}/>
-
-
-// = = = = = = = = = = = = =
-// Authentication Components
-// = = = = = = = = = = = = =
-
-/**
- * A React component representing two boxes in which keys go in.
- *
- * TODO: Get this to work. It likely does not update its state correctly.
- * Has space for a public and private key.
- *
- * Props:
- *  - **onChange**: The "callback" function to be executed every time the text
- *  inside the input changes. The function should take one argument: an object
- *  with the public and private keys as string attributes.
-*/
-class AuthForm extends Component {
-  state = {
-    publicKey: "",
-    privateKey: ""
-  };
-
-  handleChange = () => {
-    this.props.onChange({
-      publicKey: this.state.publicKey,
-      privateKey: this.state.privateKey
-    });
-  };
-
-  updatePk = (key) => {
-    this.setState({
-      publicKey: key
-    });
-    this.handleChange();
-  };
-
-  updateSk = (key) => {
-    this.setState({
-      privateKey: key
-    });
-    this.handleChange();
-  };
-
-  render() {
-    let pkId = "outgoing-pk", skId = "incoming-sk";
-
-    return (
-      <div className={"auth-form"}>
-        <table style={{width: 100 + "%"}}>
-          <tbody>
-          <tr>
-            <td>
-              <label>Outgoing encryption public key: </label>
-              <input
-                type={"text"}
-                onChange={(event) => {
-                  this.setState({publicKey: event.target.value});
-                  this.handleChange()
-                }}
-                required
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>Incoming decryption private key: </label>
-              <input
-                type={"text"}
-                onChange={(event) => {
-                this.setState({privateKey: event.target.value});
-                this.handleChange()
-              }}
-                required
-              />
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
-
-
-// = = = = = = = = = = = = =
-// Miscellaneous
-// = = = = = = = = = = = = =
-
-/**
- * A React component representing a box in which to type stuff in.
- *
- * TODO: Update this to work. It may not update its state correctly.
- * Has the "required" tag on.
- *
- * Props:
- *  - **onChange**: The "callback" function to be executed every time the text
- *  inside the input changes. The function should take one argument: what is
- *  inside the input box.
- *  - **description**: The description that should be displayed as a label to
- *  the input box.
- */
-class TextForm extends Component {
-  state = {
-    text: ""
-  };
-
-  handleChange = (event) => {
-    this.setState({text: event.target.value});
-    this.props.onChange(this.state.text);
-  };
-
-  render() {
-    return (
-      <div className={this.props.className}>
-        <label>{this.props.description}</label>
-        <input
-          type={"text"}
-          onChange={this.handleChange}
-          onPaste={() => setTimeout(this.handleChange)}
-          required
-        />
-      </div>
-    );
-  }
-
 }

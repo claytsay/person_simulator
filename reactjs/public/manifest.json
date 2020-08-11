@@ -1,6 +1,6 @@
 {
-  "short_name": "person_simulator",
-  "name": "person_simulator",
+  "short_name": "Person Simulator",
+  "name": "Person Simulator",
   "icons": [
     {
       "src": "favicon.ico",

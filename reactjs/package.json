@@ -2,7 +2,7 @@
   "name": "reactjs",
   "version": "0.2.1",
   "private": true,
-  "homepage": "http://ct3m.asuscomm.com/person_simulator/",
+  "homepage": "https://clay.tsay.us/projects/person_simulator",
   "dependencies": {
     "node-forge": "^0.7.6",
     "react": "^16.7.0",
@@ -12,6 +12,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-node": "react-scripts build && rm -rf ../nodejs/public/* && cp -r ./build/* ../nodejs/public/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
