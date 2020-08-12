@@ -114,3 +114,4 @@ python/scratchpad.py
 nodejs/keys
 nodejs/keys
 nodejs/public/*
+node_modules/

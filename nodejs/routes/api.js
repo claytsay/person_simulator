@@ -15,7 +15,7 @@ router.post('/', handlePostRequest);
  * The URL from which to allow access (i.e. from Allow-Access-Control-Origin).
  * @type {string}
  */
-const urlAcao = "http://clay.tsay.us/projects/person_simulator";
+const urlAcao = "https://clay.tsay.us:3000";
 
 // = = = = = = = = = = = = =
 // Request-Handling Functions
